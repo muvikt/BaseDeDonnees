@@ -10,9 +10,10 @@ def parseXML(file):
 	synset2word={}
 	synset2synonym={}
 	for synset_id_orig in  tree.xpath("SYNSET/ID/text()"):
+		print synset_id_orig
 		synset2synonym[synset_id_orig]=tree.xpath("//SYNSET/ID[text() = '%s' ]/following-sibling::SYNONYM/LITERAL/text()" % synset_id_orig)
 		#synset2synonym[synset_id_orig]=tree.xpath("/SYNSET/SYNONYM[../ID/text() = %s ]/LITERAL/text()" % synset_id_orig)
-		print synset2synonym
+		#print synset2synonym
 		synset_id, pos = synset_id_orig.split("-")[2], synset_id_orig.split("-")[3]
   		# mapping fr-en b --> r
   		if pos == "b":
