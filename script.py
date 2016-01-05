@@ -15,19 +15,25 @@ class GraphWN(object):
 
 	def parseXML(self, file):
 		tree = etree.parse(file)
-		for synset_id_orig in  tree.xpath("SYNSET/ID/text()"):
-			self.synset2synonym[synset_id_orig]=tree.xpath("//SYNSET/ID[text() = '%s' ]/following-sibling::SYNONYM/LITERAL/text()" % synset_id_orig)
-			#synset2synonym[synset_id_orig]=tree.xpath("/SYNSET/SYNONYM[../ID/text() = %s ]/LITERAL/text()" % synset_id_orig)
+		synsets=tree.xpath("SYNSET")
+		for synset in synsets:
+			synset_id_orig=synset.findtext("ID")
+			synonymsEl=synset.findall("SYNONYM/LITERAL")
+			syn=[]
+			for synonym in synonymsEl:
+			  syn.append(synonym.text)
+			self.synset2synonym[synset_id_orig]=syn
+			#print self.synset2synonym
 			synset_id, pos = synset_id_orig.split("-")[2], synset_id_orig.split("-")[3]
   			# mapping fr-en b --> r
   			if pos == "b":
   				pos = "r"
   			synset = wn._synset_from_pos_and_offset(pos,int(synset_id))
-  			synset_name = synset.name.split(".")[0]
-  			#print synset_name
+  			synset_name = synset.name().split(".")[0]
   			if synset_id_orig not in self.synset2word:
   				self.synset2word[synset_id_orig] = synset_name
   		print self.synset2word
+  		print self.synset2synonym
   		
 
 
