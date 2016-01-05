@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 from lxml import etree
+from py2neo import neo4j
+from py2neo import Graph
 from py2neo import Node, Relationship
 from nltk.corpus import wordnet as wn
 
@@ -29,23 +31,25 @@ class GraphWN(object):
   			if pos == "b":
   				pos = "r"
   			synset = wn._synset_from_pos_and_offset(pos,int(synset_id))
-  			synset_name = synset.name().split(".")[0]
+  			synset_name = synset.name.split(".")[0]
   			if synset_id_orig not in self.synset2word:
   				self.synset2word[synset_id_orig] = synset_name
-  
-  		#print self.synset2word
-  		#print self.synset2synonym
-  		
-
-
+ 
 
 def createGraph():
 	graph = Graph()
-	
+	word_node = Node("english_word", name="english_word")
+	synset_node = Node("synset", name="synset")
+	word_has_synset = Relationship(word_node, "has_synset", synset_node)
+	synset_has_synonym = Relationship(synset_node, "has_synonym", synset_node)
+	graph.create(word_has_synset)
 
+	print "graph created"
+	
 
 
 if __name__ == '__main__':
 	#print parseXML("wolf-1.0b4.xml")
-	gWN = GraphWN()
-	gWN.parseXML("wolf-1.0b4.xml")
+	#gWN = GraphWN()
+	#gWN.parseXML("wolf-1.0b4.xml")
+	createGraph()
