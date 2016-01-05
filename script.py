@@ -15,17 +15,17 @@ def parseXML(file):
   			pos = "r"
   		synset = wn._synset_from_pos_and_offset(pos,int(synset_id))
   		synset_name = synset.name.split(".")[0]
-  		
   		if synset_id_orig not in synset2synonym:
   			synset2synonym[synset_id_orig] = synset_name
   	return synset2synonym
-
-
-  	
-
+  
+def createGraph():
+	graph = Graph()
+	
 
   
-#def createGraph():
-  
- 
-print parseXML("wolf-1.0b4.xml")
+
+
+if __name__ == '__main__':
+	#print parseXML("wolf-1.0b4.xml")
+	print createGraph()
