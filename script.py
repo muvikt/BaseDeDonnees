@@ -20,7 +20,7 @@ class GraphWN(object):
 			synset_id_orig=synset.findtext("ID")
 			synonymsEl=synset.findall("SYNONYM/LITERAL")
 			syn=[]
-			for synonym in synonymsEl:
+			for synonym in synonymsEl: #obtient une liste des synonymes à partir d'une liste des element SYNONYM
 			  syn.append(synonym.text)
 			self.synset2synonym[synset_id_orig]=syn
 			#print self.synset2synonym
@@ -32,14 +32,16 @@ class GraphWN(object):
   			synset_name = synset.name().split(".")[0]
   			if synset_id_orig not in self.synset2word:
   				self.synset2word[synset_id_orig] = synset_name
-  		print self.synset2word
-  		print self.synset2synonym
+  
+  		#print self.synset2word
+  		#print self.synset2synonym
   		
 
 
 
 def createGraph():
 	graph = Graph()
+	
 
 
 
