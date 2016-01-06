@@ -89,9 +89,9 @@ class GraphWN(object):
 		for synset in self.synset2synonym:
 		  word_node = Node("word", literal=self.synset2word[synset])
 		  #print synset, self.synset2synonym[synset]
-		  if graph.find(self.synset2word[synset])!=None:
+		  #if graph.find(self.synset2word[synset])!=None:
 		    #print "Exist"
-		    word_node=graph.find_one("word", 'literal', self.synset2word[synset])
+		    #word_node=graph.find_one("word", 'literal', self.synset2word[synset])
 		    #print word_node
 		  synset_node = Node("synset", name=synset)
 		  word_has_synset = Relationship(word_node, "has_synset", synset_node)
