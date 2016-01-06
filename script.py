@@ -51,7 +51,7 @@ class GraphWN(object):
   			if pos == "b":
   				pos = "r"
   			synset = wn._synset_from_pos_and_offset(pos,int(synset_id))
-  			synset_name = synset.name().split(".")[0]
+  			synset_name = synset.name.split(".")[0]
   			if synset_id_orig not in self.synset2word:
   				self.synset2word[synset_id_orig] = synset_name
   		print "XML parsed"
@@ -74,15 +74,21 @@ class GraphWN(object):
 		print "creating graph..."
 		graph = Graph()
 		for synset in self.synset2synonym:
+			
 			word_node = Node("english_word", name=self.synset2word[synset])
-		    synset_node = Node("synset", name=synset)
-		    word_has_synset = Relationship(word_node, "has_synset", synset_node)
+			synset_node = Node("synset", name=synset)
+			word_has_synset = Relationship(word_node, "has_synset", synset_node)
+			graph.create(word_has_synset)
+			"""
 		    for synonym in self.synset2synonym[synset]:
 		    	word_syn = Node("english_word", name=synonym)
 		    	synset_has_synonym = Relationship(synset_node, "has_synonym", word_syn)
 		    	graph.create(synset_has_synonym)
-		    graph.create(word_has_synset)
+		    """
+
+		    
 		print "graph created"
+
 
 	
 
