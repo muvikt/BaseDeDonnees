@@ -1,5 +1,12 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
+#!/usr/bin/env python
+
+#title           : script.py
+#description     : creating a WN synonyms graph
+#authors         : anca boca, victoria musatova 
+#date            : 06/12/15
+#usage           : python script.py
+#python_version  : 2.7
 
 from lxml import etree
 from py2neo import Node, Relationship, Graph
@@ -56,7 +63,7 @@ class GraphWN(object):
   			if pos == "b":
   				pos = "r"
   			synset = wn._synset_from_pos_and_offset(pos,int(synset_id))
-  			synset_name = synset.name().split(".")[0]
+  			synset_name = synset.name.split(".")[0]
   			if synset_id_orig not in self.synset2word:
   				self.synset2word[synset_id_orig] = synset_name
   		print "XML parsed"
@@ -95,6 +102,7 @@ class GraphWN(object):
 		      graph.create(synset_has_synonym)
 		  graph.create(word_has_synset)
 		print "graph created"
+
 
 	
 
