@@ -38,12 +38,17 @@ class GraphWN(object):
 		"""
 		tree = etree.parse(file)
 		synsets=tree.xpath("SYNSET")
+		synonyms=[]
 		for synset in synsets:
 			synset_id_orig=synset.findtext("ID")
 			synonymsEl=synset.findall("SYNONYM/LITERAL")
 			syn=[]
 			for synonym in synonymsEl: #obtient une liste des synonymes à partir d'une liste des element SYNONYM
 			  syn.append(synonym.text)
+			  #if synonym.text in synonyms:
+			    #print "IN"
+			  #else:
+			    #synonyms.append(synonym.text)
 			self.synset2synonym[synset_id_orig]=syn
 			#print self.synset2synonym
 			synset_id, pos = synset_id_orig.split("-")[2], synset_id_orig.split("-")[3]
@@ -77,10 +82,11 @@ class GraphWN(object):
 		for synset in self.synset2synonym:
 		  word_node = Node("word", literal=self.synset2word[synset])
 		  #print synset, self.synset2synonym[synset]
-		  #if graph.find(self.synset2word[synset])!=None:
-		    #word_node=graph.find_one("english_word", 'name', self.synset2word[synset])
+		  if graph.find(self.synset2word[synset])!=None:
+		    #print "Exist"
+		    word_node=graph.find_one("word", 'literal', self.synset2word[synset])
 		    #print word_node
-		  synset_node = Node("synset", offset_id=synset)
+		  synset_node = Node("synset", name=synset)
 		  word_has_synset = Relationship(word_node, "has_synset", synset_node)
 		  if self.synset2synonym[synset][0]!='_EMPTY_':
 		    for synonym in self.synset2synonym[synset]:
