@@ -41,12 +41,17 @@ class GraphWN(object):
 		  graph = Graph()
 		  for synset in self.synset2synonym:
 		    word_node = Node("english_word", name=self.synset2word[synset])
+		    #print synset, self.synset2synonym[synset]
+		    if graph.find(self.synset2word[synset])!=None:
+		      word_node=graph.find_one("english_word", 'name', self.synset2word[synset])
+		      #print word_node
 		    synset_node = Node("synset", name=synset)
 		    word_has_synset = Relationship(word_node, "has_synset", synset_node)
-		    for synonym in self.synset2synonym[synset]:
-		      word_syn = Node("english_word", name=synonym)
-		      synset_has_synonym = Relationship(synset_node, "has_synonym", word_syn)
-		      graph.create(synset_has_synonym)
+		    if self.synset2synonym[synset][0]!='_EMPTY_':
+		      for synonym in self.synset2synonym[synset]:
+			word_syn = Node("english_word", name=synonym)
+			synset_has_synonym = Relationship(synset_node, "has_synonym", word_syn)
+			graph.create(synset_has_synonym)
 		    graph.create(word_has_synset)
 
 		  print "graph created"
