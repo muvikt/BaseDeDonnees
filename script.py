@@ -43,6 +43,7 @@ def createGraph():
 	word_has_synset = Relationship(word_node, "has_synset", synset_node)
 	synset_has_synonym = Relationship(synset_node, "has_synonym", synset_node)
 	graph.create(word_has_synset)
+	graph.create(synset_has_synonym)
 
 	print "graph created"
 	
